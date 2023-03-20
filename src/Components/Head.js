@@ -3,20 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheSearch } from "../utils/searchSlice";
+import { Link } from "react-router-dom";
 
 const Head = () => {
-
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  const searchCache = useSelector((store)=>store.search);
+  const searchCache = useSelector((store) => store.search);
   const dispatch = useDispatch();
 
-
-  useEffect(()=>{
-    const timer = setTimeout(()=>{
-      if(searchCache[searchQuery]) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
         setSuggestions(searchCache[searchQuery]);
       } else {
         getSearchSuggestions();
@@ -25,7 +24,8 @@ const Head = () => {
 
     return () => {
       clearTimeout(timer);
-    }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   const getSearchSuggestions = async () => {
@@ -39,9 +39,8 @@ const Head = () => {
       cacheSearch({
         [searchQuery]: jsonData[1],
       })
-    )
-  }
-
+    );
+  };
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -52,13 +51,13 @@ const Head = () => {
       <div className="flex col-span-1">
         <img
           onClick={() => toggleMenuHandler()}
-          className="h-8 cursor-pointer"
+          className="h-6 mr-2 cursor-pointer"
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAV1BMVEX///8AAADc3NyUlJT7+/s6Ojru7u5LS0uenp4lJSX39/fh4eFvb28ICAhTU1Otra3o6OjCwsK8vLw1NTWEhITR0dHKyspqampERESNjY0WFhanp6ciIiLxq9OpAAABpElEQVR4nO3dWVLjUAwF0NdxYzskJIxmCPtfJxgSSPPVP0JV8jkruKrYz5YrKrUGAAAAAAAAAPDL+mnsahmn/qy+zfZPRdvNqcBDdpQwh88Cu+wcgbq5wJvsFKFu3itcZ4cItW7tNjtDsNtW8xj9ti1+kc6XaXaCcO0qO0Gwq3aXHSHYXbvPjhDsvj1kRwj20NouO0Oo3dxYZIcI9dFeTNkpAk2fzcWq6lN/vfpqgfdDdpgAw/6fzxjXq2quAz72AAAAAAAAAAAAAP/vby0/quv3j8NFLcPj/myItOoEYnes7/IpO0mYp8uP+6/iP6BPhvl+fM5OEer5/ZDJzhCsb2N2hGBj8aGgeSzoJTtCsJcFzJDW/w3r34f1z9L6z8P67zQLeC+t31ssoD9cQo+/gO80AAAAAAAAAAAAwO+qvt+i+o6S1Wt2mCCvxz0z5XcF1d/3VHssaNcWsHet/u68+vsP6++wzE4QbgG7ZOvvA66/07n4ZbpuS9itXnb6cHacQDxk5whzODWIm5oH6nZz1uT309jVMk4/R0gBAAAAAAAAAMK9AX/vTEiQhKHCAAAAAElFTkSuQmCC"
           alt="menu"
         />
         <a href="/">
           <img
-            className="h-8 mx-2"
+            className="h-6 mx-2"
             alt="youtube"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/2560px-YouTube_Logo_2017.svg.png"
           />
@@ -66,27 +65,38 @@ const Head = () => {
       </div>
       <div className="col-span-10 px-10">
         <div>
-        <input
-          className="w-1/2 border border-gray-400 p-2 rounded-l-full"
-          type="text"
-          value={searchQuery}
-          onChange={(e)=>setSearchQuery(e.target.value)}
-          onFocus={()=> setShowSuggestions(true)}
-          onBlur = {()=>setShowSuggestions(false)}
-        />
-        <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100">
-          🔍
-        </button>
+          <input
+            className="w-1/2 border border-gray-400 p-2 rounded-l-full"
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
+          />
+          <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100">
+            <Link to={"/search?q=" + searchQuery}>
+            🔍
+            </Link>
+          </button>
         </div>
         <div>
           {showSuggestions && (
             <div className="fixed bg-white py-2 px-2 w-[37rem] shadow-lg rounded-lg border border-gray-100">
               <ul>
-                {suggestions.map((s)=>(
-                  <li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">
-                    🔍 {s}
-                  </li>
-                ))}
+                {console.log(suggestions)}
+                {suggestions.map((s) => {
+                  
+                  const par = s.split(" ").join("+");
+                  console.log(s+"   "+par);
+                  return (
+                  <Link key={s} to={"/search?q=" + par}>
+                    {console.log("/search?q=" + par)}
+                    <li className="py-2 px-3 shadow-sm hover:bg-gray-100">
+                      🔍 {s}
+                    </li>
+                  </Link>
+                  );
+                })}
               </ul>
             </div>
           )}
