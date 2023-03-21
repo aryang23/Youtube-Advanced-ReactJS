@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Shimmer UI */
+.shimmerBox {
+  width: 16rem;
+  height: 12rem;
+  background-color: lightgray;
+  margin: 1rem;
+}
+
+.shimmerBox2 {
+  width: 48rem;
+  height: 14rem;
+}
+
+.shimmerBoxes{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btnList:hover {
+  background: darkgrey;
+}

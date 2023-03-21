@@ -92,7 +92,7 @@ const Comment = ({ data }) => {
 };
 
 const CommentsList = ({ comments }) => {
-    return comments.map((comment, index) => (
+    return !comments ? null : comments.map((comment, index) => (
         <div key={index}>
             <Comment data={comment}/>
             <div className="pl-5 border border-l-black ml-5">
@@ -100,7 +100,9 @@ const CommentsList = ({ comments }) => {
             </div>
         </div>
     ))
-}
+};
+
+
 
 const CommentsContainer = () => {
     return (
