@@ -5,6 +5,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Working
 ![Home Page](https://github.com/aryang23/Youtube-Advanced-ReactJS/blob/master/homePage.png)
 
+### Shimmer View
+
 ![Shimmer Page](https://github.com/aryang23/Youtube-Advanced-ReactJS/blob/master/Shimmer1.png)
 
 ## Available Scripts
